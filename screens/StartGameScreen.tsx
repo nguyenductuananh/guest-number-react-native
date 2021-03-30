@@ -31,6 +31,7 @@ const StartGameScreen = ({ onStartGame }: Props) => {
       ]);
       return;
     }
+    Keyboard.dismiss();
     setChoosedNumber(numberEntered);
   };
   const handlerStartButton = () => {

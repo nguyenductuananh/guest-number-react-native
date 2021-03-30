@@ -14,7 +14,9 @@ interface Props {
 }
 const GameScreen = ({ choosedNumber, onHaveRound }: Props) => {
   const number = useRef<number>(choosedNumber);
-  const [currentNumber, setCurrentNumber] = useState<number>(0);
+  const [currentNumber, setCurrentNumber] = useState<number>(
+    Math.floor(Math.random() * 99)
+  );
   const [round, setRound] = useState<number>(0);
   const limit = useRef<{ max: number; min: number }>({ max: 99, min: 0 });
   const randomNumber = (): void => {
@@ -23,12 +25,12 @@ const GameScreen = ({ choosedNumber, onHaveRound }: Props) => {
       Math.floor(Math.ceil(Math.random() * (max - min + 1) + min))
     );
   };
+
   useEffect(() => {
     if (currentNumber === number.current) {
       onHaveRound(round);
-    } else randomNumber();
-    console.log(`Effect ${number.current} ${currentNumber}`);
-  }, [round]);
+    }
+  }, [currentNumber]);
   const gamePlay = (button: string) => {
     if (
       (button === "lower" && currentNumber < number.current) ||
@@ -44,7 +46,9 @@ const GameScreen = ({ choosedNumber, onHaveRound }: Props) => {
     } else {
       limit.current.min = currentNumber;
     }
-    setRound(round + 1);
+    let r = round;
+    setRound(r + 1);
+    randomNumber();
   };
   return (
     <View style={styles.container}>

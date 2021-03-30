@@ -13,6 +13,11 @@ const App = () => {
     setChoosedNumber(n);
   };
   let content: any;
+  const handlerRestart = (): void => {
+    content = null;
+    setChoosedNumber(0);
+    setRound(0);
+  };
   choosedNumber
     ? (content = (
         <GameScreen
@@ -21,8 +26,9 @@ const App = () => {
         />
       ))
     : (content = <StartGameScreen onStartGame={handlerStartGame} />);
+
   round ? (
-    (content = <EndGameScreen round={round} />)
+    (content = <EndGameScreen onRestart={handlerRestart} round={round} />)
   ) : (
     <StartGameScreen onStartGame={handlerStartGame} />
   );
