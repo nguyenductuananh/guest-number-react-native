@@ -1,16 +1,31 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
+import EndGameScreen from "./screens/EndGameScreen";
 import GameScreen from "./screens/GameScreen";
 import StartGameScreen from "./screens/StartGameScreen";
 const App = () => {
   const [choosedNumber, setChoosedNumber] = useState<number>(0);
+  const [round, setRound] = useState<number>(0);
+  const handlerSetRound = (n: number): void => {
+    setRound(n);
+  };
   const handlerStartGame = (n: number): void => {
     setChoosedNumber(n);
   };
   let content: any;
   choosedNumber
-    ? (content = <GameScreen />)
+    ? (content = (
+        <GameScreen
+          choosedNumber={choosedNumber}
+          onHaveRound={handlerSetRound}
+        />
+      ))
     : (content = <StartGameScreen onStartGame={handlerStartGame} />);
+  round ? (
+    (content = <EndGameScreen round={round} />)
+  ) : (
+    <StartGameScreen onStartGame={handlerStartGame} />
+  );
   return (
     <View style={styles.container}>
       <View>
