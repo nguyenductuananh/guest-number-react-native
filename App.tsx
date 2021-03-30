@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
+import GameScreen from "./screens/GameScreen";
 import StartGameScreen from "./screens/StartGameScreen";
 const App = () => {
+  const [choosedNumber, setChoosedNumber] = useState<number>(0);
+  const handlerStartGame = (n: number): void => {
+    setChoosedNumber(n);
+  };
+  let content: any;
+  choosedNumber
+    ? (content = <GameScreen />)
+    : (content = <StartGameScreen onStartGame={handlerStartGame} />);
   return (
     <View style={styles.container}>
       <View>
         <Text style={styles.title}>Random Number Game</Text>
       </View>
-      <View style={styles.content}>
-        <StartGameScreen />
-      </View>
+      <View style={styles.content}>{content}</View>
     </View>
   );
 };

@@ -10,7 +10,11 @@ import {
   Alert,
 } from "react-native";
 import Card from "../components/Card";
-const StartGameScreen = () => {
+
+interface Props {
+  onStartGame: (n: number) => void;
+}
+const StartGameScreen = ({ onStartGame }: Props) => {
   const [numberEntered, setNumberEntered] = useState<string>("");
   const [choosedNumber, setChoosedNumber] = useState<string>("");
   const handlerTextTyping = (text: string): void => {
@@ -28,6 +32,16 @@ const StartGameScreen = () => {
       return;
     }
     setChoosedNumber(numberEntered);
+  };
+  const handlerStartButton = () => {
+    if (!parseInt(choosedNumber)) {
+      Alert.alert("Warning!!!", "You must choose a number from 1 to 99", [
+        { text: "OK", style: "destructive" },
+      ]);
+      handlerResetButton();
+      return;
+    }
+    onStartGame(parseInt(choosedNumber));
   };
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -53,7 +67,7 @@ const StartGameScreen = () => {
             {choosedNumber ? `You choosed ${choosedNumber}.` : ""}
           </Text>
           {choosedNumber ? (
-            <Button title="Start Game" onPress={() => {}} />
+            <Button title="Start Game" onPress={handlerStartButton} />
           ) : (
             <Text></Text>
           )}
